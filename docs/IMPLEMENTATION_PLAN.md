@@ -128,10 +128,16 @@ Two honest findings worth stating plainly rather than hiding:
 - [x] Phase 16 — Testing complete: 35 backend tests (leakage, simulation, explain,
       database, model inference, API endpoints) + 5 frontend Playwright E2E tests,
       all passing; ruff clean
-- [ ] Phase 17 — Docker
-- [ ] Phase 18 — CI/CD (GitHub Actions)
-- [ ] Phase 19 — Deployment prep (Vercel/Render/Neon docs)
-- [ ] Phase 20 — Final audit
+- [x] Phase 17 — Docker (backend + frontend Dockerfiles, docker-compose.yml with
+      Postgres; written and reviewed carefully but not verified with a live
+      `docker compose up` — no Docker daemon in this environment. Flagged in README.)
+- [x] Phase 18 — CI/CD (GitHub Actions: backend lint+test, frontend typecheck+lint+build)
+- [x] Phase 19 — Deployment prep (DEPLOYMENT.md: Vercel + Render + Neon/Supabase)
+- [x] Phase 20 — Final audit (grepped for TODO/FIXME/mock/hardcoded predictions —
+      none found; removed unused scaffold dir and default create-next-app assets;
+      full green run: ruff, 35/35 backend tests, tsc, eslint, next build, 5/5 E2E)
 
-Progress is committed to git after each phase with a descriptive commit
-message so the history itself documents the build.
+All 20 phases complete. Progress was committed to git after each phase with
+a descriptive commit message, so the history itself documents the build —
+see `git log` for the full sequence of decisions and bugs found/fixed along
+the way.
