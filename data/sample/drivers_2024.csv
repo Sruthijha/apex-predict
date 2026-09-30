@@ -1,0 +1,25 @@
+driver_id,code,permanent_number,given_name,family_name,nationality,date_of_birth,url
+zhou,ZHO,24,Guanyu,Zhou,Chinese,1999-05-30,http://en.wikipedia.org/wiki/Zhou_Guanyu
+kevin_magnussen,MAG,20,Kevin,Magnussen,Danish,1992-10-05,http://en.wikipedia.org/wiki/Kevin_Magnussen
+ricciardo,RIC,3,Daniel,Ricciardo,Australian,1989-07-01,http://en.wikipedia.org/wiki/Daniel_Ricciardo
+sargeant,SAR,2,Logan,Sargeant,American,2000-12-31,http://en.wikipedia.org/wiki/Logan_Sargeant
+doohan,DOO,7,Jack,Doohan,Australian,2003-01-20,http://en.wikipedia.org/wiki/Jack_Doohan
+russell,RUS,63,George,Russell,British,1998-02-15,http://en.wikipedia.org/wiki/George_Russell_(racing_driver)
+leclerc,LEC,16,Charles,Leclerc,Monegasque,1997-10-16,http://en.wikipedia.org/wiki/Charles_Leclerc
+hamilton,HAM,44,Lewis,Hamilton,British,1985-01-07,http://en.wikipedia.org/wiki/Lewis_Hamilton
+norris,NOR,1,Lando,Norris,British,1999-11-13,http://en.wikipedia.org/wiki/Lando_Norris
+max_verstappen,VER,3,Max,Verstappen,Dutch,1997-09-30,http://en.wikipedia.org/wiki/Max_Verstappen
+bearman,BEA,87,Oliver,Bearman,British,2005-05-08,http://en.wikipedia.org/wiki/Oliver_Bearman
+gasly,GAS,10,Pierre,Gasly,French,1996-02-07,http://en.wikipedia.org/wiki/Pierre_Gasly
+ocon,OCO,31,Esteban,Ocon,French,1996-09-17,http://en.wikipedia.org/wiki/Esteban_Ocon
+albon,ALB,23,Alexander,Albon,Thai,1996-03-23,http://en.wikipedia.org/wiki/Alexander_Albon
+lawson,LAW,30,Liam,Lawson,New Zealander,2002-02-11,http://en.wikipedia.org/wiki/Liam_Lawson
+colapinto,COL,43,Franco,Colapinto,Argentine,2003-05-27,http://en.wikipedia.org/wiki/Franco_Colapinto
+sainz,SAI,55,Carlos,Sainz,Spanish,1994-09-01,http://en.wikipedia.org/wiki/Carlos_Sainz_Jr.
+perez,PER,11,Sergio,Pérez,Mexican,1990-01-26,http://en.wikipedia.org/wiki/Sergio_P%C3%A9rez
+stroll,STR,18,Lance,Stroll,Canadian,1998-10-29,http://en.wikipedia.org/wiki/Lance_Stroll
+alonso,ALO,14,Fernando,Alonso,Spanish,1981-07-29,http://en.wikipedia.org/wiki/Fernando_Alonso
+bottas,BOT,77,Valtteri,Bottas,Finnish,1989-08-28,http://en.wikipedia.org/wiki/Valtteri_Bottas
+piastri,PIA,81,Oscar,Piastri,Australian,2001-04-06,http://en.wikipedia.org/wiki/Oscar_Piastri
+hulkenberg,HUL,27,Nico,Hülkenberg,German,1987-08-19,http://en.wikipedia.org/wiki/Nico_H%C3%BClkenberg
+tsunoda,TSU,22,Yuki,Tsunoda,Japanese,2000-05-11,http://en.wikipedia.org/wiki/Yuki_Tsunoda

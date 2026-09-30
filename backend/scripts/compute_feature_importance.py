@@ -5,6 +5,7 @@ grounded in the same honestly-evaluated model reported in the Model Lab.
 
 from __future__ import annotations
 
+import argparse
 import json
 import logging
 from pathlib import Path
@@ -22,9 +23,14 @@ MODES = ["pre_weekend", "post_qualifying"]
 
 def main() -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
-    feature_table = pd.read_parquet("../data/processed/race_features.parquet")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--feature-table", default="../data/processed/race_features.parquet")
+    parser.add_argument("--model-dir", default="../data/models")
+    args = parser.parse_args()
+
+    feature_table = pd.read_parquet(args.feature_table)
     df = add_targets(feature_table)
-    model_dir = Path("../data/models")
+    model_dir = Path(args.model_dir)
 
     for mode in MODES:
         split = chronological_split(df)
