@@ -137,3 +137,17 @@ def test_model_metrics(client: TestClient):
     assert len(body["modes"]) == 2
     for mode_metrics in body["modes"]:
         assert mode_metrics["position_test_metrics"]["mae"] > 0
+
+
+def test_championship_projection(client: TestClient):
+    response = client.get("/api/championship", params={"n_trials": 500})
+    assert response.status_code == 200
+    body = response.json()
+    assert body["remaining_races"] > 0
+    driver_total = sum(d["championship_win_probability"] for d in body["drivers"])
+    assert driver_total == pytest.approx(1.0, abs=0.01)
+    constructor_total = sum(c["championship_win_probability"] for c in body["constructors"])
+    assert constructor_total == pytest.approx(1.0, abs=0.01)
+    # every driver's projected final tally is at least their current points
+    for d in body["drivers"]:
+        assert d["expected_final_points"] >= d["current_points"]

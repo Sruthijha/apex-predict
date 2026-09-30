@@ -53,3 +53,6 @@ export const useCircuit = (circuitId: string) =>
   useQuery({ queryKey: ["circuit", circuitId], queryFn: () => api.circuit(circuitId), enabled: !!circuitId });
 
 export const useModelMetrics = () => useQuery({ queryKey: ["model-metrics"], queryFn: api.modelMetrics });
+
+export const useChampionship = () =>
+  useQuery({ queryKey: ["championship"], queryFn: () => api.championship() });

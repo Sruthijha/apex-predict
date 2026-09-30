@@ -38,7 +38,9 @@ class DriverSimulationInput:
     dnf_probability: float
 
 
-def _points_for_positions(positions: np.ndarray) -> np.ndarray:
+def points_for_positions(positions: np.ndarray) -> np.ndarray:
+    """Shared by the single-race simulator and the championship simulator
+    (ml/simulation/championship.py), so both use the exact same scoring."""
     points = np.zeros_like(positions, dtype=float)
     for pos, pts in POINTS_TABLE.items():
         points[positions == pos] = pts
@@ -91,7 +93,7 @@ def simulate_race(
     # is already randomized via the noise/tiebreak above).
     positions = final_scores.argsort(axis=1).argsort(axis=1) + 1
 
-    points = _points_for_positions(positions)
+    points = points_for_positions(positions)
 
     rows = []
     for i, driver_id in enumerate(driver_ids):

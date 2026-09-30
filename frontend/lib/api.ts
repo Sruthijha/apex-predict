@@ -1,4 +1,5 @@
 import type {
+  ChampionshipProjectionResponse,
   CircuitDetail,
   CircuitSummary,
   ConstructorDetail,
@@ -61,4 +62,7 @@ export const api = {
   circuit: (circuitId: string) => apiFetch<CircuitDetail>(`/api/circuits/${circuitId}`),
 
   modelMetrics: () => apiFetch<ModelMetricsResponse>("/api/model/metrics"),
+
+  championship: (nTrials = 5000, seed = 42) =>
+    apiFetch<ChampionshipProjectionResponse>(`/api/championship?n_trials=${nTrials}&seed=${seed}`),
 };

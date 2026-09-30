@@ -179,6 +179,36 @@ export interface ModelModeMetrics {
   feature_importance: FeatureImportanceEntry[];
 }
 
+export interface DriverChampionshipProjection {
+  driver_id: string;
+  driver_name: string;
+  constructor_id: string;
+  current_points: number;
+  expected_final_points: number;
+  championship_win_probability: number;
+  top3_championship_probability: number;
+}
+
+export interface ConstructorChampionshipProjection {
+  constructor_id: string;
+  constructor_name: string;
+  current_points: number;
+  expected_final_points: number;
+  championship_win_probability: number;
+  top3_championship_probability: number;
+}
+
+export interface ChampionshipProjectionResponse {
+  season: number;
+  last_completed_round: number;
+  remaining_races: number;
+  n_trials: number;
+  seed: number;
+  assumption: string;
+  drivers: DriverChampionshipProjection[];
+  constructors: ConstructorChampionshipProjection[];
+}
+
 export interface ModelMetricsResponse {
   trained_at: string;
   feature_version: string;
