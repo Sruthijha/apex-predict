@@ -173,6 +173,6 @@ def build_feature_table(
 
     # grid_position falls back to the actual race-day grid (covers pit-lane
     # starts / grid penalties where qualifying position != starting grid).
-    feature_df["grid_position"] = feature_df["grid_position"].fillna(feature_df["grid"])
+    feature_df["grid_position"] = feature_df["grid_position"].astype(float).fillna(feature_df["grid"])
 
     return feature_df

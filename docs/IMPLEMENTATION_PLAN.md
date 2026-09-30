@@ -118,7 +118,7 @@ Two honest findings worth stating plainly rather than hiding:
 - [x] Phase 6 — Baseline models (historical-average, grid-position)
 - [x] Phase 7 — Stronger models (Linear/Logistic, RF, XGBoost) + small tuned grids
 - [x] Phase 8 — Final model selection with evidence — see "Honest results" below
-- [ ] Phase 9 — Monte Carlo simulation engine
+- [x] Phase 9 — Monte Carlo simulation engine + live inference + SHAP importance + explanations
 - [ ] Phase 10 — FastAPI backend
 - [ ] Phase 11 — Database + migrations
 - [ ] Phase 12 — Frontend design system
