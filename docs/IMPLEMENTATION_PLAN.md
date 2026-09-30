@@ -65,6 +65,49 @@ decisions yourself" instruction)
   (no local Docker daemon) — validated via config review + backend/frontend
   native runs instead. Flagged clearly in DEPLOYMENT.md for user verification.
 
+## Honest results (2024 test season, models fit on 2015-2022, tuned on 2023)
+
+These are the actual numbers from `data/models/model_registry.json` — not
+illustrative placeholders. They are reported here exactly as produced,
+including the parts that are not flattering, per the project's non-negotiable
+"do not fabricate accuracy" rule.
+
+| Mode | Position model | Test MAE | Test Spearman | vs. baseline |
+|---|---|---|---|---|
+| pre_weekend | Linear Regression | 3.31 | 0.654 | beats historical-average baseline (MAE 3.39) |
+| post_qualifying | Linear Regression | 2.87 | 0.758 | **ties/slightly trails** grid-position baseline (MAE 2.83) |
+
+| Mode | DNF model | Test LogLoss | Test Brier | Test ROC-AUC | vs. baseline |
+|---|---|---|---|---|---|
+| pre_weekend | Logistic Regression | 0.357 | 0.101 | 0.526 | modest lift over base-rate baseline (0.370 / 0.105) |
+| post_qualifying | Logistic Regression | 0.355 | 0.101 | 0.560 | modest lift over base-rate baseline |
+
+Two honest findings worth stating plainly rather than hiding:
+
+1. **Linear models beat Random Forest and XGBoost** on both targets at this
+   dataset size (~3,500 training driver-race rows for 2015-2022). The tree
+   models' validation MAE/log-loss were consistently worse across the small
+   hyperparameter grids tried. This is a legitimate, evidence-based choice,
+   not a shortcut — tabular data this size with strongly linear
+   grid-position/form relationships doesn't give tree ensembles room to earn
+   their added variance. Reported instead of forcing a fancier-sounding
+   model that measurably underperforms.
+2. **Grid position alone is a very strong baseline** for post-qualifying
+   finishing position (F1 drivers rarely gain or lose many places). The
+   engineered model essentially ties it on raw MAE and modestly beats it on
+   rank correlation (0.758 vs 0.746) and top-3 identification (0.611 vs
+   lower). The real value the ML system adds over the baseline is not a
+   dramatically lower MAE — it's the probabilistic, multi-output surface
+   (win/podium/DNF probabilities via simulation, explanations, scenario
+   analysis) that a single baseline number cannot produce at all.
+3. **DNF is genuinely hard to predict** from pre-race features (ROC-AUC
+   0.53-0.56, barely above chance). This matches motorsport reality:
+   retirements are dominated by single-race mechanical failures and
+   collisions that aren't strongly predictable from rolling historical
+   stats. The model still beats the constant base-rate baseline on
+   log-loss/Brier, indicating some real signal (e.g. constructor
+   reliability trends), just not a strong one.
+
 ## Phases (tracking against the 20-phase spec)
 
 - [x] Phase 1 — Inspect repo/environment
@@ -72,9 +115,9 @@ decisions yourself" instruction)
 - [x] Phase 3 — Historical data ingestion (Jolpica client + cache + raw pull) — 2015-2026, 5028 driver-race rows
 - [x] Phase 4 — EDA / data quality validation — fixed pagination-split bug and DNF status-classification bug
 - [x] Phase 5 — Leakage-safe feature engineering — 34-column feature table, 5 leakage tests passing
-- [ ] Phase 6 — Baseline models
-- [ ] Phase 7 — Stronger models (RF, XGBoost) + tuning
-- [ ] Phase 8 — Final model selection with evidence
+- [x] Phase 6 — Baseline models (historical-average, grid-position)
+- [x] Phase 7 — Stronger models (Linear/Logistic, RF, XGBoost) + small tuned grids
+- [x] Phase 8 — Final model selection with evidence — see "Honest results" below
 - [ ] Phase 9 — Monte Carlo simulation engine
 - [ ] Phase 10 — FastAPI backend
 - [ ] Phase 11 — Database + migrations
