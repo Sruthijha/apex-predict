@@ -27,7 +27,6 @@ from sklearn.base import clone
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.pipeline import Pipeline
 
-from ml.evaluation.metrics import classification_metrics, regression_metrics
 from ml.features.feature_columns import FEATURE_VERSION, NUMERIC_FEATURES_BY_MODE
 from ml.training.dataset import add_targets
 from ml.training.preprocessing import build_preprocessor

@@ -125,7 +125,9 @@ Two honest findings worth stating plainly rather than hiding:
 - [x] Phase 13 — Main frontend pages (home, race, race lab, compare, drivers, constructors, circuits, model lab)
 - [x] Phase 14 — Frontend <-> backend integration (verified end-to-end via Playwright against live API, no hardcoded predictions)
 - [x] Phase 15 — Explainability (SHAP feature importance on Model Lab + rule-based per-driver factors on race page)
-- [x] Phase 16 (partial) — Backend leakage/sim/API tests (16) + frontend Playwright E2E smoke (5) all passing; more unit tests next
+- [x] Phase 16 — Testing complete: 35 backend tests (leakage, simulation, explain,
+      database, model inference, API endpoints) + 5 frontend Playwright E2E tests,
+      all passing; ruff clean
 - [ ] Phase 17 — Docker
 - [ ] Phase 18 — CI/CD (GitHub Actions)
 - [ ] Phase 19 — Deployment prep (Vercel/Render/Neon docs)

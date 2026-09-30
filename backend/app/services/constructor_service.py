@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import pandas as pd
-
 from app.schemas.constructors import ConstructorDetail, ConstructorSummary
 from app.services.data_store import DataStore
 

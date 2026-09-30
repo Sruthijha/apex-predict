@@ -9,7 +9,7 @@ from alembic import context
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-import app.models  # noqa: E402  (registers all tables on Base.metadata)
+import app.models  # noqa: E402,F401  (registers all tables on Base.metadata)
 from app.core.config import get_settings  # noqa: E402
 from app.db.base import Base  # noqa: E402
 
