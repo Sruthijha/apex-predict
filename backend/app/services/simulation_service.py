@@ -73,6 +73,7 @@ def run_race_simulation(
         DriverSimulationOutcome(
             driver_id=r.driver_id,
             driver_name=f"{driver_meta.loc[r.driver_id, 'given_name']} {driver_meta.loc[r.driver_id, 'family_name']}",
+            driver_code=driver_meta.loc[r.driver_id, "code"],
             win_probability=float(r.win_probability),
             podium_probability=float(r.podium_probability),
             top5_probability=float(r.top5_probability),

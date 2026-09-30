@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+:root {
+  --color-apex-red: #e10600;
+  --color-apex-red-dim: #a30400;
+  --color-apex-dark: #0d0d0d;
+  --color-apex-dark-2: #181818;
+  --color-apex-off-white: #f5f3ee;
+  --color-apex-gray: #8a8a8a;
+
+  --background: var(--color-apex-dark);
+  --foreground: var(--color-apex-off-white);
+}
+
+@theme inline {
+  --color-apex-red: var(--color-apex-red);
+  --color-apex-red-dim: var(--color-apex-red-dim);
+  --color-apex-dark: var(--color-apex-dark);
+  --color-apex-dark-2: var(--color-apex-dark-2);
+  --color-apex-off-white: var(--color-apex-off-white);
+  --color-apex-gray: var(--color-apex-gray);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-display: var(--font-oswald);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-roboto-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Subtle checkered texture, used sparingly as a section accent. */
+.checker-strip {
+  background-image: repeating-conic-gradient(
+    var(--color-apex-off-white) 0% 25%,
+    transparent 0% 50%
+  );
+  background-size: 14px 14px;
+}
+
+/* Faint grain overlay for the vintage-poster feel. */
+.grain-overlay {
+  position: relative;
+}
+.grain-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.timing-mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -121,11 +121,11 @@ Two honest findings worth stating plainly rather than hiding:
 - [x] Phase 9 — Monte Carlo simulation engine + live inference + SHAP importance + explanations
 - [x] Phase 10 — FastAPI backend (races/drivers/constructors/circuits/predictions/simulate/model metrics)
 - [x] Phase 11 — Database + Alembic migrations
-- [ ] Phase 12 — Frontend design system
-- [ ] Phase 13 — Main frontend pages
-- [ ] Phase 14 — Frontend <-> backend integration
-- [ ] Phase 15 — Explainability (SHAP / rule-based factors)
-- [ ] Phase 16 — Testing (backend leakage/API/sim tests, frontend smoke)
+- [x] Phase 12 — Frontend design system (Next.js 16 + Tailwind v4, Oswald/Inter/Roboto Mono, red/black/off-white tokens)
+- [x] Phase 13 — Main frontend pages (home, race, race lab, compare, drivers, constructors, circuits, model lab)
+- [x] Phase 14 — Frontend <-> backend integration (verified end-to-end via Playwright against live API, no hardcoded predictions)
+- [x] Phase 15 — Explainability (SHAP feature importance on Model Lab + rule-based per-driver factors on race page)
+- [x] Phase 16 (partial) — Backend leakage/sim/API tests (16) + frontend Playwright E2E smoke (5) all passing; more unit tests next
 - [ ] Phase 17 — Docker
 - [ ] Phase 18 — CI/CD (GitHub Actions)
 - [ ] Phase 19 — Deployment prep (Vercel/Render/Neon docs)

@@ -12,6 +12,7 @@ class SimulationRequest(BaseModel):
 class DriverSimulationOutcome(BaseModel):
     driver_id: str
     driver_name: str
+    driver_code: str | None
     win_probability: float
     podium_probability: float
     top5_probability: float
