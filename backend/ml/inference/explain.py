@@ -20,16 +20,24 @@ MAX_FACTORS_PER_SIDE = 3
 
 
 def _relative_rank_pct(value: float, series: pd.Series, higher_is_better: bool) -> float:
-    """0.0 (worst in field) .. 1.0 (best in field)."""
-    if pd.isna(value) or series.dropna().empty:
+    """0.0 (worst in field) .. 1.0 (best in field). Ties count as half-better,
+    half-worse (a value tied with the entire field is exactly average - 0.5 -
+    not the worst, which a naive strict-inequality count would wrongly give)."""
+    valid = series.dropna()
+    if pd.isna(value) or valid.empty:
         return 0.5
-    pct = (series < value).mean() if higher_is_better else (series > value).mean()
-    return float(pct)
+    better = (valid < value).sum() if higher_is_better else (valid > value).sum()
+    worse = (valid > value).sum() if higher_is_better else (valid < value).sum()
+    tied = len(valid) - better - worse
+    return float((better + 0.5 * tied) / len(valid))
 
 
-def explain_driver(row: pd.Series, field: pd.DataFrame) -> dict:
+def explain_driver(row: pd.Series, field: pd.DataFrame, mode: str) -> dict:
     """`row` is one driver's feature+prediction row; `field` is every driver
-    in the same race (used to judge "strong" / "weak" relative to the grid)."""
+    in the same race (used to judge "strong" / "weak" relative to the grid).
+    `mode` gates the grid-position factor: in pre_weekend mode grid_position
+    is a meaningless placeholder (qualifying hasn't happened), not a real
+    value, so it must never surface as an explanation there."""
     candidates: list[tuple[float, str, str]] = []  # (strength 0-1, direction, text)
 
     def add(value, series, higher_is_better, good_text, bad_text, threshold=0.65):
@@ -60,7 +68,7 @@ def explain_driver(row: pd.Series, field: pd.DataFrame) -> dict:
         "Car scoring well in recent races",
         "Constructor underperforming recently",
     )
-    if "grid_position" in row and pd.notna(row.get("grid_position")):
+    if mode == "post_qualifying" and pd.notna(row.get("grid_position")):
         add(
             row.get("grid_position"),
             field["grid_position"],

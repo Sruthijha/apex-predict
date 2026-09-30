@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     cors_origins: str = "http://localhost:3000"
     jolpica_base_url: str = "https://api.jolpi.ca/ergast/f1"
     data_cache_dir: str = str(BACKEND_DIR.parent / "data" / "raw")
+    processed_data_dir: str = str(BACKEND_DIR.parent / "data" / "processed")
     model_artifact_dir: str = str(BACKEND_DIR.parent / "data" / "models")
     simulation_seed: int = 42
 
