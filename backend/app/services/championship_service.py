@@ -39,7 +39,7 @@ def get_championship_projection(
         return None  # season is over - nothing left to project
 
     next_race = remaining.sort_values("round").iloc[0]
-    next_race_id = store.race_slug(season, next_race["circuit_id"])
+    next_race_id = store.race_slug(season, int(next_race["round"]), next_race["circuit_id"])
 
     prepared = prepare_prediction(store, model_dir, next_race_id, "pre_weekend")
     if prepared is None:

@@ -6,7 +6,7 @@ from app.schemas.circuits import CircuitSummary
 
 
 class RaceSummary(BaseModel):
-    race_id: str  # "{season}-{circuit_id}"
+    race_id: str  # "{season}-r{round}-{circuit_id}"
     season: int
     round: int
     name: str
@@ -17,3 +17,15 @@ class RaceSummary(BaseModel):
 
 class RaceDetail(RaceSummary):
     has_qualifying: bool
+
+
+class ActualRaceResult(BaseModel):
+    driver_id: str
+    driver_name: str
+    driver_code: str | None
+    constructor_id: str
+    constructor_name: str
+    grid: int
+    position: int
+    points: float
+    status: str

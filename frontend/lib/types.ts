@@ -35,6 +35,18 @@ export interface RaceDetail extends RaceSummary {
   has_qualifying: boolean;
 }
 
+export interface ActualRaceResult {
+  driver_id: string;
+  driver_name: string;
+  driver_code: string | null;
+  constructor_id: string;
+  constructor_name: string;
+  grid: number;
+  position: number;
+  points: number;
+  status: string;
+}
+
 export interface DriverSummary {
   id: string;
   code: string | null;

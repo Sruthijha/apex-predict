@@ -70,6 +70,22 @@ def test_get_race_not_found(client: TestClient):
     assert response.status_code == 404
 
 
+def test_actual_results_for_upcoming_race_is_404(client: TestClient):
+    upcoming = client.get("/api/races/upcoming").json()
+    response = client.get(f"/api/races/{upcoming['race_id']}/results")
+    assert response.status_code == 404
+
+
+def test_actual_results_for_a_past_race_are_sorted_by_position(client: TestClient):
+    response = client.get("/api/races/2024-r16-monza/results")
+    assert response.status_code == 200
+    body = response.json()
+    assert len(body) > 0
+    assert body[0]["position"] == 1
+    positions = [r["position"] for r in body]
+    assert positions == sorted(positions)
+
+
 def test_list_and_get_driver(client: TestClient):
     drivers = client.get("/api/drivers").json()
     assert len(drivers) > 0

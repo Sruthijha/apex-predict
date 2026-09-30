@@ -289,7 +289,12 @@ running. Key endpoints:
 | `GET /api/circuits` · `/api/circuits/{id}` | Circuit directory and historical winners |
 | `GET /api/model/metrics` | Full Model Lab data: metrics, baselines, calibration, SHAP importance |
 
-`race_id` is `{season}-{circuit_id}`, e.g. `2024-monza`.
+`race_id` is `{season}-r{round}-{circuit_id}`, e.g. `2024-r16-monza`. The
+round is required for uniqueness, not just readability — 2020's COVID-
+shortened calendar ran two races at some circuits in the same season (e.g.
+two Red Bull Ring rounds), so `{season}-{circuit_id}` alone collides for
+those — a real bug caught via a React duplicate-key warning during manual
+testing of the "Beat the Model" race selector, fixed by adding the round.
 
 ## Testing
 

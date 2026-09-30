@@ -11,6 +11,17 @@ export const useRaces = (season?: number) =>
 export const useRace = (raceId: string) =>
   useQuery({ queryKey: ["race", raceId], queryFn: () => api.race(raceId), enabled: !!raceId });
 
+/** Actual results only exist for races that have happened; 404s otherwise,
+ * so this is treated as "may not exist" rather than an error to surface. */
+export const useActualResults = (raceId: string) =>
+  useQuery({
+    queryKey: ["actual-results", raceId],
+    queryFn: () => api.actualResults(raceId),
+    enabled: !!raceId,
+    retry: false,
+    throwOnError: false,
+  });
+
 /** Tries post_qualifying first, falls back to pre_weekend if qualifying
  * hasn't happened yet (the API 404s in that case) - the UI clearly labels
  * whichever mode actually loaded. */

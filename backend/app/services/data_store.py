@@ -7,11 +7,14 @@ call directly into the ml/ package's feature-engineering and inference code).
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
 
 import pandas as pd
+
+_RACE_SLUG_RE = re.compile(r"^(\d+)-r(\d+)-(.+)$")
 
 
 @dataclass(frozen=True)
@@ -23,16 +26,22 @@ class DataStore:
     race_results: pd.DataFrame
     qualifying_results: pd.DataFrame
 
-    def race_slug(self, season: int, circuit_id: str) -> str:
-        return f"{season}-{circuit_id}"
+    def race_slug(self, season: int, round_: int, circuit_id: str) -> str:
+        """`{season}-r{round}-{circuit_id}`. The round is required for
+        uniqueness, not just readability: several seasons (2020's COVID-
+        shortened calendar, 2021) ran two races at the same circuit in the
+        same year (e.g. two Red Bull Ring rounds), so `{season}-{circuit_id}`
+        alone collides for those races."""
+        return f"{season}-r{round_}-{circuit_id}"
 
     def find_race(self, race_id: str) -> pd.Series | None:
-        try:
-            season_str, circuit_id = race_id.split("-", 1)
-            season = int(season_str)
-        except ValueError:
+        match = _RACE_SLUG_RE.match(race_id)
+        if match is None:
             return None
-        matches = self.races[(self.races["season"] == season) & (self.races["circuit_id"] == circuit_id)]
+        season, round_, circuit_id = int(match.group(1)), int(match.group(2)), match.group(3)
+        matches = self.races[
+            (self.races["season"] == season) & (self.races["round"] == round_) & (self.races["circuit_id"] == circuit_id)
+        ]
         return matches.iloc[0] if not matches.empty else None
 
     def latest_lineup(self, before_season: int, before_round: int) -> pd.DataFrame:

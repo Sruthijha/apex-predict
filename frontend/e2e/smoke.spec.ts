@@ -40,3 +40,23 @@ test("driver comparison shows head-to-head stats once two drivers are picked", a
   await expect(page.getByText("Season Points")).toBeVisible();
   await expect(page.getByText("VS")).toBeVisible();
 });
+
+test("championship page projects the title fight with probabilities", async ({ page }) => {
+  await page.goto("/championship");
+  await expect(page.getByRole("heading", { name: "Title Fight" })).toBeVisible();
+  await expect(page.getByText("Stated assumption:")).toBeVisible();
+  await expect(page.getByText("Full Driver Standings Projection")).toBeVisible();
+});
+
+test("beat the model lets you reorder a grid and lock in a comparison", async ({ page }) => {
+  await page.goto("/beat-the-model");
+  await expect(page.getByRole("heading", { name: "Beat the Model" })).toBeVisible();
+  await expect(page.getByText("Your Grid")).toBeVisible();
+
+  const firstDownButton = page.getByRole("button", { name: /Move .* down/ }).first();
+  await firstDownButton.click();
+
+  await page.getByRole("button", { name: "Lock In My Grid" }).click();
+  await expect(page.getByText("You vs Model")).toBeVisible();
+  await expect(page.getByText("Exact position matches")).toBeVisible();
+});

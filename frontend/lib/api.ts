@@ -1,4 +1,5 @@
 import type {
+  ActualRaceResult,
   ChampionshipProjectionResponse,
   CircuitDetail,
   CircuitSummary,
@@ -41,6 +42,7 @@ export const api = {
   races: () => apiFetch<RaceSummary[]>("/api/races"),
   upcomingRace: () => apiFetch<RaceSummary>("/api/races/upcoming"),
   race: (raceId: string) => apiFetch<RaceDetail>(`/api/races/${raceId}`),
+  actualResults: (raceId: string) => apiFetch<ActualRaceResult[]>(`/api/races/${raceId}/results`),
 
   prediction: (raceId: string, mode: PredictionMode) =>
     apiFetch<RacePrediction>(`/api/predictions/${raceId}?mode=${mode}`),
