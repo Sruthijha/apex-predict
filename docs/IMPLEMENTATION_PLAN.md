@@ -69,9 +69,9 @@ decisions yourself" instruction)
 
 - [x] Phase 1 — Inspect repo/environment
 - [x] Phase 2 — Architecture & project structure
-- [ ] Phase 3 — Historical data ingestion (Jolpica client + cache + raw pull)
-- [ ] Phase 4 — EDA / data quality validation
-- [ ] Phase 5 — Leakage-safe feature engineering
+- [x] Phase 3 — Historical data ingestion (Jolpica client + cache + raw pull) — 2015-2026, 5028 driver-race rows
+- [x] Phase 4 — EDA / data quality validation — fixed pagination-split bug and DNF status-classification bug
+- [x] Phase 5 — Leakage-safe feature engineering — 34-column feature table, 5 leakage tests passing
 - [ ] Phase 6 — Baseline models
 - [ ] Phase 7 — Stronger models (RF, XGBoost) + tuning
 - [ ] Phase 8 — Final model selection with evidence
