@@ -155,6 +155,60 @@ def test_model_metrics(client: TestClient):
         assert mode_metrics["position_test_metrics"]["mae"] > 0
 
 
+def test_whatif_baseline_has_no_applied_changes(client: TestClient):
+    response = client.post(
+        "/api/whatif/2024-r16-monza",
+        json={"prediction_mode": "post_qualifying", "weather": "dry", "n_simulations": 500, "seed": 1},
+    )
+    assert response.status_code == 200
+    body = response.json()
+    assert body["applied_changes"] == ["No changes applied - this is the baseline prediction."]
+
+
+def test_whatif_grid_override_uses_the_real_model_and_moves_the_prediction(client: TestClient):
+    """Sending a driver to the back of the grid should make their predicted
+    outcome meaningfully worse - a genuine response from the trained
+    post-qualifying model, not a canned number."""
+    response = client.post(
+        "/api/whatif/2024-r16-monza",
+        json={
+            "prediction_mode": "post_qualifying",
+            "grid_overrides": {"leclerc": 20},
+            "n_simulations": 2000,
+            "seed": 1,
+        },
+    )
+    assert response.status_code == 200
+    body = response.json()
+    leclerc = next(o for o in body["outcomes"] if o["driver_id"] == "leclerc")
+    assert leclerc["scenario_expected_position"] > leclerc["baseline_expected_position"]
+    assert leclerc["scenario_win_probability"] < leclerc["baseline_win_probability"]
+
+
+def test_whatif_wet_weather_raises_average_dnf_probability(client: TestClient):
+    response = client.post(
+        "/api/whatif/2024-r16-monza",
+        json={"prediction_mode": "post_qualifying", "weather": "wet", "n_simulations": 2000, "seed": 1},
+    )
+    assert response.status_code == 200
+    body = response.json()
+    avg_baseline = sum(o["baseline_dnf_probability"] for o in body["outcomes"]) / len(body["outcomes"])
+    avg_scenario = sum(o["scenario_dnf_probability"] for o in body["outcomes"]) / len(body["outcomes"])
+    assert avg_scenario > avg_baseline
+    assert any("heuristic" in c for c in body["applied_changes"])
+
+
+def test_whatif_dnf_override_forces_high_dnf_rate_for_that_driver(client: TestClient):
+    response = client.post(
+        "/api/whatif/2024-r16-monza",
+        json={"prediction_mode": "post_qualifying", "dnf_overrides": {"leclerc": 1.0}, "n_simulations": 2000, "seed": 1},
+    )
+    assert response.status_code == 200
+    body = response.json()
+    leclerc = next(o for o in body["outcomes"] if o["driver_id"] == "leclerc")
+    assert leclerc["scenario_dnf_probability"] > 0.9
+
+
 def test_championship_projection(client: TestClient):
     response = client.get("/api/championship", params={"n_trials": 500})
     assert response.status_code == 200

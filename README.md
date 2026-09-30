@@ -54,6 +54,15 @@ during training or tuning — including the parts that aren't flattering (see
 - **Explanations** — every prediction ships with 0-3 positive and 0-3 risk
   factors, computed from that driver's actual feature values relative to
   the rest of the field in that race (not templated or fabricated text).
+- **Championship Simulator ("Title Fight")** — projects the rest of the
+  season thousands of times for driver and constructor title probabilities,
+  with the projection's assumption stated plainly in the UI.
+- **What-If Mode** — move a driver's grid slot (a real re-prediction from
+  the trained model), force a retirement, or try a wet/mixed weather
+  scenario (a documented heuristic), and watch every driver's probabilities
+  respond.
+- **Beat the Model** — arrange your own predicted grid, lock it in, and see
+  how you did against the model — and, for a past race, against reality.
 
 ## Architecture
 
@@ -282,8 +291,11 @@ running. Key endpoints:
 |---|---|
 | `GET /health` | Liveness check |
 | `GET /api/races` · `/api/races/upcoming` · `/api/races/{race_id}` | Race schedule and detail |
+| `GET /api/races/{race_id}/results` | Actual classification for a race that's happened (404 otherwise) |
 | `GET /api/predictions/{race_id}?mode=pre_weekend\|post_qualifying` | Full predicted classification |
 | `POST /api/simulate/{race_id}` | Monte Carlo simulation (`n_simulations`, `seed`, `prediction_mode`) |
+| `POST /api/whatif/{race_id}` | Scenario re-prediction (`grid_overrides`, `dnf_overrides`, `weather`) |
+| `GET /api/championship` | Season-long driver/constructor title projection |
 | `GET /api/drivers` · `/api/drivers/{id}` · `/api/drivers/{id}/results` | Driver directory, profile, recent results |
 | `GET /api/constructors` · `/api/constructors/{id}` | Constructor directory and profile |
 | `GET /api/circuits` · `/api/circuits/{id}` | Circuit directory and historical winners |
@@ -299,15 +311,15 @@ testing of the "Beat the Model" race selector, fixed by adding the round.
 ## Testing
 
 ```bash
-# Backend: 35 tests — leakage, simulation, explanations, database, model
-# inference, and API endpoints (the last two skip gracefully if the data
-# pipeline/trained models aren't present yet)
+# Backend: 48 tests — leakage, simulation, championship, explanations,
+# database, model inference, and API endpoints (the last two skip
+# gracefully if the data pipeline/trained models aren't present yet)
 cd backend && pytest tests/ -v
 
 # Frontend: typecheck, lint, production build
 cd frontend && npx tsc --noEmit && npm run lint && npm run build
 
-# Frontend: Playwright E2E (needs both servers running with seeded data)
+# Frontend: Playwright E2E, 8 tests (needs both servers running with seeded data)
 cd frontend && npm run test:e2e
 ```
 
@@ -355,15 +367,34 @@ apex-predict/
 - The assumed race-day lineup for a future race is "whoever raced most
   recently" — mid-season driver swaps won't be reflected until they appear
   in results.
-- No live weather data; the "what-if" weather scenario described in the
-  original spec was not built (see below).
+- No live weather data — the What-If tool's weather scenario is a documented
+  DNF-risk/pace-variance heuristic, not a trained weather response (grid-
+  position changes in the same tool *are* a real re-prediction from the
+  trained model — see [What-If Mode](#what-if-mode) below for the distinction).
+- The championship simulator holds every driver's current predicted pace and
+  DNF risk constant across all remaining races (form isn't re-simulated race
+  by race) — a stated assumption, not a forecast of how form will evolve.
 
-**Future work:**
+**Built since the initial release** (originally listed as future work):
 
-- FastF1 integration for practice-session pace and real weather data.
-- A "What-If" scenario tool (grid position / weather / DNF-risk sliders).
-- Championship-simulation (remaining-season Monte Carlo) and a "Beat the
-  Model" client-side prediction game.
-- SHAP waterfall charts per-driver (currently: global importance + a
-  rule-based per-driver explanation layer).
-- Track-map visualization from circuit coordinate data.
+- **Championship Simulator** (`/championship`) — projects the rest of the
+  season thousands of times for both driver and constructor title
+  probabilities.
+- **What-If Mode** (`/whatif`) — move a driver's grid slot (a genuine
+  re-prediction from the trained post-qualifying model), force a
+  retirement, or change the weather (a documented heuristic), and see
+  every driver's probabilities shift in response.
+- **Beat the Model** (`/beat-the-model`) — arrange your own predicted grid,
+  then compare it to the model's and, for a race that's already happened,
+  to the real result.
+
+**Still future work:**
+
+- FastF1 integration for practice-session pace and real historical weather
+  data (would let What-If's weather scenario become a real trained response
+  instead of a heuristic).
+- SHAP waterfall charts per-driver (currently: global importance on the
+  Model Lab page + a rule-based per-driver explanation layer on race pages).
+- Track-map visualization — Ergast/Jolpica only provides a single lat/long
+  point per circuit, not track geometry, so there's no honest way to draw
+  one from this data source.

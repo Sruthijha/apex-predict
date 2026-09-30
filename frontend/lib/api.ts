@@ -14,6 +14,8 @@ import type {
   RaceSummary,
   RecentResult,
   SimulationResponse,
+  WhatIfRequest,
+  WhatIfResponse,
 } from "./types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
@@ -67,4 +69,10 @@ export const api = {
 
   championship: (nTrials = 5000, seed = 42) =>
     apiFetch<ChampionshipProjectionResponse>(`/api/championship?n_trials=${nTrials}&seed=${seed}`),
+
+  whatif: (raceId: string, request: WhatIfRequest) =>
+    apiFetch<WhatIfResponse>(`/api/whatif/${raceId}`, {
+      method: "POST",
+      body: JSON.stringify(request),
+    }),
 };

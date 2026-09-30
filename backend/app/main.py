@@ -5,7 +5,7 @@ from __future__ import annotations
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import championship, circuits, constructors, drivers, model, predictions, races, simulation
+from app.api.routes import championship, circuits, constructors, drivers, model, predictions, races, simulation, whatif
 from app.core.config import get_settings
 
 settings = get_settings()
@@ -32,6 +32,7 @@ app.include_router(predictions.router)
 app.include_router(simulation.router)
 app.include_router(model.router)
 app.include_router(championship.router)
+app.include_router(whatif.router)
 
 
 @app.get("/health", tags=["health"])

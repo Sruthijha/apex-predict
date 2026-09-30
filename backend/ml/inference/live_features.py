@@ -81,9 +81,9 @@ def build_live_feature_rows(
                     "driver_id": e.driver_id,
                     "constructor_id": e.constructor_id,
                     "position": e.grid_position,
-                    "q1_seconds": None,
-                    "q2_seconds": None,
-                    "q3_seconds": None,
+                    "q1_seconds": float("nan"),
+                    "q2_seconds": float("nan"),
+                    "q3_seconds": float("nan"),
                 }
                 for e in known_grid_entries
             ]

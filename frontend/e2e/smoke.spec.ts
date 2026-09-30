@@ -41,6 +41,21 @@ test("driver comparison shows head-to-head stats once two drivers are picked", a
   await expect(page.getByText("VS")).toBeVisible();
 });
 
+test("what-if scenario tool re-runs predictions with a forced DNF", async ({ page }) => {
+  await page.goto("/whatif");
+  await expect(page.getByRole("heading", { name: "What If?" })).toBeVisible();
+
+  const selects = await page.locator("select").all();
+  await selects[0].selectOption({ label: "2024 Italian Grand Prix" });
+  await page.waitForTimeout(500); // driver options repopulate once the prediction loads
+  const refreshedSelects = await page.locator("select").all();
+  await refreshedSelects[2].selectOption("leclerc"); // race, grid-driver, dnf-driver
+
+  await page.getByRole("button", { name: "Run Scenario" }).click();
+  await expect(page.getByText("Simulated scenario")).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByText("DNF probability manually set to 100%")).toBeVisible();
+});
+
 test("championship page projects the title fight with probabilities", async ({ page }) => {
   await page.goto("/championship");
   await expect(page.getByRole("heading", { name: "Title Fight" })).toBeVisible();

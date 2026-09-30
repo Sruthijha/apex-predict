@@ -9,6 +9,7 @@ const LINKS = [
   { href: "/", label: "Home" },
   { href: "/championship", label: "Title Fight" },
   { href: "/compare", label: "Head to Head" },
+  { href: "/whatif", label: "What If?" },
   { href: "/beat-the-model", label: "Beat the Model" },
   { href: "/drivers", label: "Drivers" },
   { href: "/constructors", label: "Constructors" },

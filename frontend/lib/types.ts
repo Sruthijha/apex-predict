@@ -191,6 +191,39 @@ export interface ModelModeMetrics {
   feature_importance: FeatureImportanceEntry[];
 }
 
+export type WeatherCondition = "dry" | "mixed" | "wet";
+
+export interface WhatIfRequest {
+  prediction_mode: PredictionMode;
+  weather: WeatherCondition;
+  grid_overrides: Record<string, number>;
+  dnf_overrides: Record<string, number>;
+  n_simulations: number;
+  seed: number;
+}
+
+export interface WhatIfDriverOutcome {
+  driver_id: string;
+  driver_name: string;
+  baseline_win_probability: number;
+  scenario_win_probability: number;
+  baseline_podium_probability: number;
+  scenario_podium_probability: number;
+  baseline_dnf_probability: number;
+  scenario_dnf_probability: number;
+  baseline_expected_position: number;
+  scenario_expected_position: number;
+}
+
+export interface WhatIfResponse {
+  race_id: string;
+  prediction_mode: PredictionMode;
+  weather: WeatherCondition;
+  applied_changes: string[];
+  disclaimer: string;
+  outcomes: WhatIfDriverOutcome[];
+}
+
 export interface DriverChampionshipProjection {
   driver_id: string;
   driver_name: string;
