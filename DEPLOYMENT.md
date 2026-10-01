@@ -11,6 +11,22 @@ Recommended stack for a simple, low-cost public deployment:
 Before you start, verify each platform's current free-tier limits and
 signup requirements — they change over time and aren't reproduced here.
 
+## GitHub Actions deployment
+
+This repo includes a deployment workflow in `.github/workflows/deploy.yml` that can trigger a production deploy from GitHub Actions.
+
+Required GitHub repository secrets:
+
+| Secret | Used by | Value |
+|---|---|---|
+| `VERCEL_TOKEN` | Frontend | Vercel personal access token |
+| `VERCEL_ORG_ID` | Frontend | Vercel team or user org ID |
+| `VERCEL_PROJECT_ID` | Frontend | Vercel project ID for the frontend |
+| `RENDER_API_KEY` | Backend | Render API key |
+| `RENDER_SERVICE_ID` | Backend | Render service ID for the backend |
+
+Once those are set, pushes to `main` or a manual `workflow_dispatch` run will trigger deployment. This is the simplest GitHub-native path for a portfolio project because it keeps the deploy process versioned in the repo and uses the hosted platform's own deployment APIs.
+
 ## 1. Provision Postgres
 
 Create a Postgres database on Neon or Supabase. Copy the connection string
